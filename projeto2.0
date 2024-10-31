@@ -158,7 +158,7 @@ void loop() {
 
   display.clearDisplay();
 
-  display.setTextSize(1);      // Normal 1:1 pixel scale
+  display.setTextSize(2);      // Normal 1:1 pixel scale
   display.setTextColor(WHITE); // Draw white text
   display.setCursor(0, 0);     // Start at top-left corner
   display.cp437(true);         // Use full 256 char 'Code Page 437' font
@@ -167,12 +167,15 @@ void loop() {
   uint8_t gesture = apds.readGesture();
   Serial.println(gesture);
   if(gesture == APDS9960_LEFT) {
-    pessoas -= 1;
-    sprintf(pessoa, pessoas);
-    client.publish("test", pessoa);
-    display.print("Pessoas no estabelecimento: ");
-    display.println(pessoas);
-    display.display();
+    if (pessoas > 0) {
+      pessoas -= 1;
+      sprintf(pessoas, "%s", pessoas);
+      client.publish("test", pessoas);
+      display.print("Pessoas no estabelecimento: ");
+      display.println(pessoas);
+      display.display();
+    }
+    
   }
   else if(gesture == APDS9960_RIGHT) {
     pessoas += 1;
