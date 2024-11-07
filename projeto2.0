@@ -121,7 +121,7 @@ void callback(char* topic, byte* message, unsigned int length) {
 
   // If a message is received on the topic esp32/output, you check if the message is either "on" or "off". 
   // Changes the output state according to the message
-  if (String(topic) == "test/output") {
+  if (String(topic) == "topico_pessoas/output") {
     Serial.print("Changing output to ");
     if(messageTemp == "on"){
       Serial.println("on");
@@ -173,7 +173,7 @@ void loop() {
 
       itoa(pessoas, pessoas_char, 10);
       
-      client.publish("test", pessoas_char);
+      client.publish("topico_pessoas", pessoas_char);
       display.print("Pessoas no estabelecimento: ");
       display.println(pessoas);
       display.display();
@@ -186,7 +186,7 @@ void loop() {
 
     itoa(pessoas, pessoas_char, 10);
       
-    client.publish("test", pessoas_char);
+    client.publish("topico_pessoas", pessoas_char);
 
     display.print("Pessoas dentro: ");
     display.println(pessoas);
