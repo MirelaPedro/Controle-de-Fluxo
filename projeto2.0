@@ -43,11 +43,16 @@ int value = 0;
 #define BME_CS 5*/
 
 int pessoas = 0;
+const int led01 = 18;
+const int led02 = 17;
+const int led03 = 16;
 
 void setup() {
   Serial.begin(115200);
-  // default settings
-  // (you can also pass in a Wire library object like &Wire2)
+
+  pinMode(led01, OUTPUT);
+  pinMode(led02, OUTPUT);
+  pinMode(led03, OUTPUT);
 
   setup_wifi();
   client.setServer(mqtt_server, 1883);
@@ -174,7 +179,7 @@ void loop() {
       itoa(pessoas, pessoas_char, 10);
       
       client.publish("topico_pessoas", pessoas_char);
-      display.print("Pessoas no estabelecimento: ");
+      display.print("Pessoas dentro: ");
       display.println(pessoas);
       display.display();
     }
@@ -191,5 +196,16 @@ void loop() {
     display.print("Pessoas dentro: ");
     display.println(pessoas);
     display.display();
+  }
+
+  if(pessoas > 0){
+    digitalWrite(led01, HIGH);
+    digitalWrite(led02, HIGH);
+    digitalWrite(led03, HIGH);
+  }
+  else{
+    digitalWrite(led01, LOW);
+    digitalWrite(led02, LOW);
+    digitalWrite(led03, LOW);
   }
 }
