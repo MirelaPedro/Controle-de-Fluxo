@@ -145,7 +145,8 @@ void reconnect() {
     if (client.connect("ESP32Client")) {
       Serial.println("connected");
       // Subscribe
-      client.subscribe("test/output");
+      client.subscribe("topico_pessoas/output");
+      client.subscribe("topico_led/output");
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -170,7 +171,6 @@ void loop() {
 
   //read a gesture from the device
   uint8_t gesture = apds.readGesture();
-  Serial.println(gesture);
   if(gesture == APDS9960_LEFT) {
     if (pessoas > 0) {
       pessoas -= 1;
@@ -202,10 +202,13 @@ void loop() {
     digitalWrite(led01, HIGH);
     digitalWrite(led02, HIGH);
     digitalWrite(led03, HIGH);
+    client.publish("topico_led", "aceso");
   }
   else{
     digitalWrite(led01, LOW);
     digitalWrite(led02, LOW);
     digitalWrite(led03, LOW);
+    client.publish("topico_led", "desligado");
   }
 }
+
