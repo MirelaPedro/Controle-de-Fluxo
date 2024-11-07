@@ -27,7 +27,7 @@ const char* password = "IOT2024@#";
 
 // Add your MQTT Broker IP address, example:
 //const char* mqtt_server = "192.168.1.144";
-const char* mqtt_server = "10.93.0.116";
+const char* mqtt_server = "10.93.0.158";
 
 WiFiClient espClient;
 PubSubClient client(espClient);
@@ -169,8 +169,11 @@ void loop() {
   if(gesture == APDS9960_LEFT) {
     if (pessoas > 0) {
       pessoas -= 1;
-      sprintf(pessoas, "%s", pessoas);
-      client.publish("test", pessoas);
+      char pessoas_char[5];
+
+      itoa(pessoas, pessoas_char, 10);
+      
+      client.publish("test", pessoas_char);
       display.print("Pessoas no estabelecimento: ");
       display.println(pessoas);
       display.display();
@@ -179,8 +182,13 @@ void loop() {
   }
   else if(gesture == APDS9960_RIGHT) {
     pessoas += 1;
-    client.publish("test", "aumentou");
-    display.print("Pessoas no estabelecimento: ");
+    char pessoas_char[5];
+
+    itoa(pessoas, pessoas_char, 10);
+      
+    client.publish("test", pessoas_char);
+
+    display.print("Pessoas dentro: ");
     display.println(pessoas);
     display.display();
   }
